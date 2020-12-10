@@ -54,6 +54,7 @@ public class LoginServlet extends HttpServlet {
 				System.out.println("this user not register yet");
 				// 3. forwards
 				forwards("reg.html", request, response);
+				response.redirected("reg.html");
 			}
 		} catch(FileNotFoundException e) {
 			e.printStackTrace();

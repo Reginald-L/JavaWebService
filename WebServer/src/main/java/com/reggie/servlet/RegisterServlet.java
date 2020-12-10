@@ -40,5 +40,6 @@ public class RegisterServlet extends HttpServlet{
     	}
     	//3. setting regsuc.html as response entity and 200 as status_code
     	forwards("regsuc.html", httpRequest, httpResponse);
+    	httpResponse.redirected("regsuc.html");
 	}
 }

@@ -91,6 +91,15 @@ public class HttpResponse {
 	}
 	
 	/**
+	 * @param uri
+	 */
+	public void redirected(String uri) {
+		System.out.println("------------  starting redirecting  ------------");
+		setStatusCode("302");
+		setResponseHeader("Location", uri);
+	}
+	
+	/**
 	 * writeLine
 	 * @param line
 	 */
