@@ -3,6 +3,11 @@ package com.reggie.server;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadPoolExecutor;
+
+import javax.swing.tree.FixedHeightLayoutCache;
 
 /**
  * @ClassName WebServer
@@ -14,10 +19,12 @@ import java.net.Socket;
 
 public class WebServer {
     private ServerSocket serverSocket;
+    private ExecutorService threadPool;
 
     public WebServer() {
         try {
             serverSocket = new ServerSocket(8080);
+            threadPool = Executors.newFixedThreadPool(200);
         } catch (IOException e) {
             System.err.println("------------  There is an error when construct a ServerSocket  ------------");
             e.printStackTrace();
@@ -35,8 +42,9 @@ public class WebServer {
 //                saveRequest(socket);
                 
                 ClientHandler handler = new ClientHandler(socket);
-                Thread t = new Thread(handler);
-                t.start();
+                threadPool.execute(handler);
+//                Thread t = new Thread(handler);
+//                t.start();
             }
         } catch (IOException e) {
             e.printStackTrace();

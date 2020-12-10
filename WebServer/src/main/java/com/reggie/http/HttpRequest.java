@@ -156,7 +156,6 @@ public class HttpRequest {
             	if ("application/x-www-form-urlencoded".equals(contentType)) {
             		byte[] data = new byte[Integer.valueOf(contentLength)];
             		int d = in.read(data);
-            		System.out.println("d = " + d);
             		String message = new String(data, "ISO8859-1");
             		praseParam(message);
             	}
