@@ -78,15 +78,7 @@ public class HttpRequest {
     			// -1 username=reggie&password=123456
     			// -2 username=reggie (username=  username) ====> 1
     			String queryString = urlData[1];
-    			queryString = decodingLine(queryString);
-    			for(String str : queryString.split("&")) {
-    				String[] queryData = str.split("=");
-    				if (queryData.length == 2) {
-    					queryParam.put(queryData[0], queryData[1]);
-    				}else {
-    					queryParam.put(queryData[0], null);
-    				}
-    			}
+    			praseParam(queryString);
     		}
     	}else {
     		// /index.html
@@ -96,6 +88,18 @@ public class HttpRequest {
 //    		System.out.println(e.getKey() + " ====== " + e.getValue());
 //    	}
     }
+
+	private void praseParam(String message) {
+		message = decodingLine(message);
+		for(String str : message.split("&")) {
+			String[] queryData = str.split("=");
+			if (queryData.length == 2) {
+				queryParam.put(queryData[0], queryData[1]);
+			}else {
+				queryParam.put(queryData[0], null);
+			}
+		}
+	}
     
     /**
      * translate ISO8859-1 to UTF-8
@@ -144,7 +148,22 @@ public class HttpRequest {
      */
     private void parseRequestContent() {
         System.out.println("------------  Starting parsing request content  ------------");
-
+        try {
+        	String contentLength = getHeaderValue("Content-Length");
+            if (contentLength != null) {
+            	System.out.println("The content is not empty");
+            	String contentType = getHeaderValue("Content-Type");
+            	if ("application/x-www-form-urlencoded".equals(contentType)) {
+            		byte[] data = new byte[Integer.valueOf(contentLength)];
+            		int d = in.read(data);
+            		System.out.println("d = " + d);
+            		String message = new String(data, "ISO8859-1");
+            		praseParam(message);
+            	}
+            }
+        }catch(IOException e) {
+        	e.printStackTrace();
+        }
         System.out.println("------------  Parsing request content is finished  ------------");
     }
 

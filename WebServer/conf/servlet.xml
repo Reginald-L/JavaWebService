@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<servlets>
+	<servlet>
+		<suffix>/reg</suffix>
+		<class>com.reggie.servlet.RegisterServlet</class>
+	</servlet>
+	<servlet>
+		<suffix>/login</suffix>
+		<class>com.reggie.servlet.LoginServlet</class>
+	</servlet>
+</servlets>
